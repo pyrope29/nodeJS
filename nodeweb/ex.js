@@ -1,6 +1,5 @@
-module.exports.hello = function (){
-  ex.hello();
-}
+var ex = require('./ex.js');
+ex.hello();
 //함수 exports
 
 
