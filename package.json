@@ -1,0 +1,29 @@
+{
+  "name": "kr.bit",
+  "version": "0.0.1",
+  "description": "",
+  "main": "serverupload.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "formidable": "^1.2.1",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0",
+    "templet": "0.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pyrope29/nodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pyrope29/nodeJS/issues"
+  },
+  "homepage": "https://github.com/pyrope29/nodeJS#readme"
+}

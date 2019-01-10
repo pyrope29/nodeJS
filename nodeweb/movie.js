@@ -110,6 +110,30 @@ function handleGetRequest(req, res) {
 //실습 과제
 function handlePostRequest(req, res) {
 
+  var url = req.url;
+  var buffer = '';
+  if (url == '/movies') {
+    req.on('data', function (chunk) {
+      buffer += chunk;
+   });
+ 
+   req.on('end', function () {
+      var parsed = JSON.parse(buffer);
+      var id = movieList.length;
+      var title = parsed.title;
+      var director = parsed.director;
+      var year = parsed.year;
+      var synopsis = parsed.synopsis;
+      
+      movieList.push({"id" : id, "title": title, "director": director, "year":year,"synopsis":synopsis});
+      
+     
+      res.writeHead(200, {'Content-Type':'application/json'});
+      res.end(JSON.stringify({result:'success'}));         
+   });   
+  }
+
+
 
 }
 
@@ -119,45 +143,33 @@ function handlePutRequest(req, res) {
 
 function handleDeleteRequest(req, res) {
 
-
     var url = req.url;
+    var id = url.split('/')[2];
 
-    var list = [];
 
-    if (url == '/movies') {
-        // 영화 목록 만들기
-        
-        for (var i = 0; i < movieList.length; i++) {
-            var movie = movieList[i];
-            list.push({ id: movie.id, title: movie.title });
-        }
-        
-        // 항목 갯수와 영화 목록 정보        
-        var result = {
-            count: list.length,
-            data: list
-        }
+    for (var i=0; i<movieList.length; i++) {
+        var item = movieList[i];
+        if (id == item.id) {
+            movieList.splice(id,1);
 
-        res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8' });
-        res.end(JSON.stringify(result));
-    }
-    else {
-        // 영화 상세 정보를 위한 id 추출 /movies/0
-        var id = url.split('/')[2];
-        var movie = null;
-        // 영화 데이터베이스에서 영화 검색
-        for (var i = 0; i < movieList.length; i++) {
-            var item = movieList[i];
-            if (id == item.id) {
-                
-                movieList[i].data.splice(1,1);
+            for (var j = 0; j < movieList.length-1; j++) {
+                movieList[j] = movieList[j+1];
             }
-        }
         
-        res.writeHead(200, { 'Content-Type': 'application/json;charset=utf-8'});
-        res.end(JSON.stringify(movieList));
+            
+
+            break;
+
+        }
+    }
+        
+    var result = {
+        count: movieList.length,
+        data: movieList
     }
 
+    res.writeHead(200, {'Content-Type':'application/json'});
+    res.end(JSON.stringify(result));
 
 
 }
